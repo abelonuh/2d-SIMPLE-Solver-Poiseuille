@@ -1,103 +1,90 @@
-**2D SIMPLE Solver for Incompressible Poiseuille Flow**
+# CFD Study: SIMPLE Algorithm and 2D Poiseuille Flow
 
-**Overview**
+## **Overview**
 
-Finite volume implementation of a two-dimensional steady incompressible Navier–Stokes solver using the SIMPLE (Semi-Implicit Method for Pressure-Linked Equations) algorithm on a staggered grid. The solver is validated against the analytical solution of laminar Poiseuille flow between parallel plates and includes a structured parametric stability study.
+This repository documents my study and hands-on work with fundamental Computational Fluid Dynamics (CFD) concepts, focusing on pressure–velocity coupling and the numerical solution of incompressible laminar flow using the SIMPLE (Semi-Implicit Method for Pressure-Linked Equations) algorithm.
 
-**Project Context**
+The project was completed collaboratively by **Emin Khalifayev** and **Abel Inalegwu Onuh** as part of the Computational Fluid Dynamics course at **Mines Saint-Étienne (October 2025)**. Using a structured solver framework provided during the course, we worked on completing, debugging, validating, and analyzing the numerical solution for **2D incompressible Poiseuille flow**.
 
-This project was completed as part of the Computational Fluid Dynamics course at Mines Saint-Étienne (October 2025).
+This repository is shared for **educational and portfolio purposes** to demonstrate understanding of CFD fundamentals, solver structure, and numerical convergence behavior.
 
-The solver and report were developed collaboratively with Emin Khalifayev. The implementation, debugging, validation, and parametric analysis were carried out as part of the academic assignment. This repository is published for educational and portfolio purposes.
+---
 
-**Mathematical Formulation**
+## **Learning Objectives**
 
-The steady incompressible Navier–Stokes equations are discretized using the finite volume method on a staggered grid:
+Through this project, I developed practical understanding of:
 
-Pressure stored at cell centers
+- Finite Volume Method (FVM) discretization of the Navier–Stokes equations  
+- Pressure–velocity coupling using the SIMPLE algorithm  
+- Use of staggered grids for numerical stability  
+- Role of under-relaxation factors in ensuring convergence  
+- Interpretation of residual convergence behavior  
+- Validation of numerical results against analytical solutions  
 
-Velocity components stored at cell faces
+---
 
-Diffusion terms use central differencing.
-Convection terms use first-order upwind discretization.
+## **Physical Problem: Poiseuille Flow**
 
-Pressure–velocity coupling is handled using the SIMPLE algorithm with under-relaxation factors:
+The case studied is **steady incompressible laminar flow between two parallel plates**.
 
-Velocity relaxation: αu ≈ 0.8
+The analytical solution provides:
 
-Pressure relaxation: αp ≈ 0.2
+- Parabolic velocity distribution across the channel  
+- Linear pressure decrease along the flow direction  
 
-The solver iterates until residuals fall below 1e-6 and global continuity is satisfied.
+This benchmark allows direct validation of numerical accuracy.
 
-**Validation**
+---
 
-The numerical solution is validated against analytical Poiseuille flow:
+## **Numerical Approach**
 
-Parabolic velocity profile
+The solver framework uses:
 
-Linear pressure gradient
+- Finite volume discretization  
+- Staggered grid arrangement  
+- Central differencing for diffusion terms  
+- First-order upwind discretization for convection terms  
+- SIMPLE pressure-correction algorithm  
 
-At convergence:
+Solver convergence is achieved when **residuals fall below tolerance** and **mass conservation is satisfied**.
 
-Velocity RMSE < 3%
+---
 
-Pressure RMSE < 2%
+## **Validation and Results**
 
-Residual decay over ~1000 iterations
+The numerical solution successfully reproduces expected physical behavior:
 
-Representative results are included in the results/ folder.
+- Velocity profile converges to the analytical parabolic shape  
+- Pressure varies linearly along the flow direction  
+- Residuals decrease steadily until convergence  
 
-**Parametric Study**
+Representative plots and solver outputs are available in the **`results/`** folder.
 
-A structured parametric study was conducted to analyze solver stability and accuracy under variations of:
+---
 
-Grid size
+## **Parametric Study**
 
-Grid aspect ratio
+We investigated the influence of key numerical parameters, including:
 
-Velocity relaxation factor
+- Grid resolution  
+- Grid aspect ratio  
+- Pressure relaxation factor  
+- Velocity relaxation factor  
+- Reynolds number  
 
-Pressure relaxation factor
+This analysis helped build intuition about **solver stability, numerical diffusion, and convergence characteristics**.
 
-Reynolds number
+---
 
-**Key observations:**
+## **Repository Purpose**
 
-Near-square grids improved numerical isotropy
+This repository documents my practical exposure to **CFD solver structure, numerical stability, and validation methodology**. It serves as a foundation for future **independent CFD implementations** and more advanced studies in **multiphase flow simulation**.
 
-Excessive pressure relaxation triggered instability
+---
 
-Higher Reynolds numbers increased nonlinear convergence difficulty
+## **Authors**
 
-Grid refinement reduced discretization error
+**Emin Khalifayev**  
+**Abel Inalegwu Onuh**  
 
-**Repository Structure**
-
-main.py
-solve_x_momentum.py
-solve_y_momentum.py
-solve_P.py
-correct_u_x.py
-correct_u_y.py
-
-postprocessing/
-results/
-report/
-
-**How to Run**
-
-Install dependencies:
-
-pip install -r requirements.txt
-
-Run the solver:
-
-python main.py
-
-Future Extensions
-
-Implementation of SIMPLEC
-
-Higher-order advection schemes
-
-Extension to transient or multiphase flows
+*Mines Saint-Étienne, 2025*
